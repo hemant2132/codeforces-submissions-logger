@@ -1,11 +1,15 @@
 {
-  "name": "codeforces-submissions-log",
+  "name": "codeforces-submissions-logger",
   "version": "1.0.0",
-  "description": "A utility to log a user's Codeforces submissions to a Google Docs Sheet.",
+  "description": "A utility to log a user's Codeforces submissions to a Google Sheet.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github:hemant2132/codeforces-submissions-logger"
   },
   "keywords": [
     "codeforces",
