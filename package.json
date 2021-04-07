@@ -7,9 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "[\"codeforces\"",
-    "\"google-spreadsheet\"]"
+    "codeforces",
+    "google-spreadsheet"
   ],
   "author": "Hemant Panwar",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0"
+  }
 }
