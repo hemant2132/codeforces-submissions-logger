@@ -4,7 +4,7 @@ const fetchLatestSubmission = require("./fetchLatestSubmission");
 const pushToSpreadsheet = require("./spreadsheet");
 const getDateAndTime = require("./getDateAndTime");
 
-async function routine() {
+(async function routine() {
   console.log(getDateAndTime(Date.now()));
   console.log("running");
   try {
@@ -16,6 +16,4 @@ async function routine() {
   setTimeout(async () => {
     await routine();
   }, process.env.TIME_INTERVAL);
-}
-
-routine();
+})();
