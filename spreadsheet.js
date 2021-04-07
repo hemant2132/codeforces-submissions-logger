@@ -1,32 +1,6 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const creds = require("./config/codeforces-submissions-log-d4049da8dda1.json"); // load info of the service worker account from the json file
-
-const getDateAndTime = (unixTimestamp) => {
-  const date = new Date(unixTimestamp * 1000);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const year = date.getFullYear();
-  const month = months[date.getMonth()];
-  const day = date.getDate();
-  const hour = date.getHours();
-  const min = date.getMinutes();
-  const sec = date.getSeconds();
-  const dateAndTime =
-    day + " " + month + " " + year + " " + hour + ":" + min + ":" + sec;
-  return dateAndTime;
-};
+const getDateAndTime = require("./getDateAndTime");
 
 module.exports = async (submission) => {
   const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID); // initialise the sheet - doc ID is the long id in the sheet URL
@@ -35,7 +9,7 @@ module.exports = async (submission) => {
   await doc.loadInfo(); // load document properties and worksheets
   const sheet = doc.sheetsByIndex[0];
 
-  const curTimestamp = getDateAndTime(submission.creationTimeSeconds);
+  const curTimestamp = getDateAndTime(submission.creationTimeSeconds * 1000);
 
   const rows = await sheet.getRows();
   for (let row of rows) {
@@ -47,7 +21,7 @@ module.exports = async (submission) => {
 
   // data to be pushed into the new row
   let rowData = {
-    Timestamp: getDateAndTime(submission.creationTimeSeconds),
+    Timestamp: curTimestamp,
     "Problem Link": `https://codeforces.com/contest/${submission.contestId}/problem/${submission.problem.index}`,
     "Contest ID":
       submission.contestId === undefined ? "" : submission.contestId,
@@ -78,4 +52,6 @@ module.exports = async (submission) => {
 
   // add row to the sheet
   await sheet.addRow(rowData);
+
+  console.log(`${rowData["Submission Link"]} pushed!`);
 };
