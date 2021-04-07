@@ -1,11 +1,18 @@
 require("dotenv").config();
 
 const fetchLatestSubmission = require("./fetchLatestSubmission");
+const pushToSpreadsheet = require("./spreadsheet");
 
-setInterval(async () => {
+async function routine() {
   try {
-    await fetchLatestSubmission();
+    const submission = await fetchLatestSubmission();
+    await pushToSpreadsheet(submission);
   } catch (error) {
     console.log(error);
   }
-}, process.env.TIME_INTERVAL);
+  setTimeout(async () => {
+    await routine();
+  }, process.env.TIME_INTERVAL);
+}
+
+routine();
