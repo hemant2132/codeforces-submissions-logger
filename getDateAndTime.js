@@ -1,6 +1,14 @@
-// convert unix timestamp to date and time
+const convertTZ = (date, tzString) => {
+  return new Date(
+    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
+      timeZone: tzString,
+    })
+  );
+};
+
 module.exports = (unixTimestamp) => {
-  const date = new Date(unixTimestamp);
+  let date = new Date(unixTimestamp);
+  date = convertTZ(date, process.env.TIME_ZONE);
   const months = [
     "Jan",
     "Feb",
