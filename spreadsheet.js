@@ -9,19 +9,17 @@ module.exports = async (submission) => {
   await doc.loadInfo(); // load document properties and worksheets
   const sheet = doc.sheetsByIndex[0];
 
-  const curTimestamp = getDateAndTime(submission.creationTimeSeconds * 1000);
-
-  const rows = await sheet.getRows();
-  for (let row of rows) {
-    if (row.Timestamp === curTimestamp) {
-      // avoid duplicated data in sheet
-      return;
-    }
+  // avoid duplicated entry in sheet
+  if (String(submission.id) === process.env.LAST_SUBMISSION_ID) {
+    console.log(
+      `https://codeforces.com/contest/${submission.contestId}/submission/${submission.id} already pushed.`
+    );
+    return;
   }
 
   // data to be pushed into the new row
   let rowData = {
-    Timestamp: curTimestamp,
+    Timestamp: getDateAndTime(submission.creationTimeSeconds * 1000),
     "Problem Link": `https://codeforces.com/contest/${submission.contestId}/problem/${submission.problem.index}`,
     "Contest ID":
       submission.contestId === undefined ? "" : submission.contestId,
@@ -54,4 +52,5 @@ module.exports = async (submission) => {
   await sheet.addRow(rowData);
 
   console.log(`${rowData["Submission Link"]} pushed!`);
+  process.env.LAST_SUBMISSION_ID = submission.id;
 };
