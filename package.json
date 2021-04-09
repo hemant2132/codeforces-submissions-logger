@@ -1,7 +1,7 @@
 {
   "name": "codeforces-submissions-logger",
   "version": "1.0.0",
-  "description": "A utility to log a user's Codeforces submissions to a Google Sheet.",
+  "description": "A utility to log a user's submissions on Codeforces to a Google Sheet.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -16,7 +16,7 @@
     "google-spreadsheet"
   ],
   "author": "Hemant Panwar",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
