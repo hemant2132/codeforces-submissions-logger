@@ -1,19 +1,32 @@
 require("dotenv").config();
 
-const fetchLatestSubmission = require("./fetchLatestSubmission");
-const pushToSpreadsheet = require("./spreadsheet");
-const getDateAndTime = require("./getDateAndTime");
+const { GoogleSpreadsheet } = require("google-spreadsheet");
+const creds = require("./config/codeforces-submissions-log-d4049da8dda1.json"); // load info of the service worker account from the json file
 
-(async function routine() {
-  console.log(getDateAndTime(Date.now()));
-  console.log("running");
-  try {
-    const submission = await fetchLatestSubmission();
-    await pushToSpreadsheet(submission);
-  } catch (error) {
-    console.log(error);
-  }
-  setTimeout(async () => {
-    await routine();
-  }, process.env.TIME_INTERVAL);
+const fetchLatestSubmission = require("./src/fetchLatestSubmission");
+const pushToSpreadsheet = require("./src/spreadsheet");
+const getDateAndTime = require("./src/getDateAndTime");
+
+(async () => {
+  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID); // initialise the sheet - doc ID is the long id in the sheet URL
+  await doc.useServiceAccountAuth(creds); // initialize auth
+
+  await doc.loadInfo(); // load document properties and worksheets
+  const sheet = doc.sheetsByIndex[0];
+
+  const routine = async () => {
+    console.log(getDateAndTime(Date.now()));
+    console.log("running");
+    try {
+      const submission = await fetchLatestSubmission();
+      await pushToSpreadsheet(sheet, submission);
+    } catch (error) {
+      console.log(error);
+    }
+    setTimeout(async () => {
+      await routine();
+    }, process.env.TIME_INTERVAL);
+  };
+
+  routine();
 })();

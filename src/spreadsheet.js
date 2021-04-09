@@ -1,23 +1,6 @@
-const { GoogleSpreadsheet } = require("google-spreadsheet");
-const creds = require("./config/codeforces-submissions-log-d4049da8dda1.json"); // load info of the service worker account from the json file
 const getDateAndTime = require("./getDateAndTime");
 
-module.exports = async (submission) => {
-  const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID); // initialise the sheet - doc ID is the long id in the sheet URL
-  await doc.useServiceAccountAuth(creds); // initialize auth
-
-  await doc.loadInfo(); // load document properties and worksheets
-  const sheet = doc.sheetsByIndex[0];
-
-  // avoid duplicated entry in sheet
-  if (String(submission.id) === process.env.LAST_SUBMISSION_ID) {
-    console.log(
-      `https://codeforces.com/contest/${submission.contestId}/submission/${submission.id} already pushed.`
-    );
-    return;
-  }
-
-  // data to be pushed into the new row
+const computeRowObject = (submission) => {
   let rowData = {
     Timestamp: getDateAndTime(submission.creationTimeSeconds * 1000),
     "Problem Link": `https://codeforces.com/contest/${submission.contestId}/problem/${submission.problem.index}`,
@@ -40,13 +23,27 @@ module.exports = async (submission) => {
         ? ""
         : submission.points + "/" + submission.problem.points,
     "Participation Type": submission.author.participantType,
-    "My Notes": "",
   };
 
   for (let tag of submission.problem.tags) {
     rowData.Tags += tag + ", ";
   }
   rowData.Tags = rowData.Tags.substr(0, rowData.Tags.length - 2);
+
+  return rowData;
+};
+
+module.exports = async (sheet, submission) => {
+  // avoid duplicated entry in sheet
+  if (String(submission.id) === process.env.LAST_SUBMISSION_ID) {
+    console.log(
+      `https://codeforces.com/contest/${submission.contestId}/submission/${submission.id} already pushed.`
+    );
+    return;
+  }
+
+  // data to be pushed into the new row
+  const rowData = computeRowObject(submission);
 
   // add row to the sheet
   await sheet.addRow(rowData);
