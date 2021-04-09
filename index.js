@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
-const creds = require("./config/codeforces-submissions-log-d4049da8dda1.json"); // load info of the service worker account from the json file
+const creds = require(process.env.JSON_KEY_FILE_PATH); // load info of the service worker account from the json file
 
 const fetchLatestSubmission = require("./src/fetchLatestSubmission");
 const pushToSpreadsheet = require("./src/spreadsheet");
