@@ -3,8 +3,7 @@ require("dotenv").config();
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 const creds = require(process.env.JSON_KEY_FILE_PATH); // load info of the service worker account from the json file
 
-const fetchLatestSubmission = require("./src/fetchLatestSubmission");
-const pushToSpreadsheet = require("./src/spreadsheet");
+const pushLatestSubmission = require("./src/spreadsheet/pushLatestSubmission");
 const getDateAndTime = require("./src/getDateAndTime");
 
 (async () => {
@@ -18,8 +17,7 @@ const getDateAndTime = require("./src/getDateAndTime");
     console.log(getDateAndTime(Date.now()));
     console.log("running");
     try {
-      const submission = await fetchLatestSubmission();
-      await pushToSpreadsheet(sheet, submission);
+      await pushLatestSubmission(sheet);
     } catch (error) {
       console.log(error);
     }

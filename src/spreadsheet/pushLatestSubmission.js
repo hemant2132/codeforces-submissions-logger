@@ -1,4 +1,5 @@
-const getDateAndTime = require("./getDateAndTime");
+const fetchSubmissions = require("../codeforces/fetchSubmissions");
+const getDateAndTime = require("../getDateAndTime");
 
 const computeRowObject = (submission) => {
   let rowData = {
@@ -33,7 +34,11 @@ const computeRowObject = (submission) => {
   return rowData;
 };
 
-module.exports = async (sheet, submission) => {
+module.exports = async (sheet) => {
+  // get latest submission
+  let submission = await fetchSubmissions(1, 1);
+  submission = submission[0];
+
   // avoid duplicated entry in sheet
   if (String(submission.id) === process.env.LAST_SUBMISSION_ID) {
     console.log(
