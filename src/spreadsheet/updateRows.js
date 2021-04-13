@@ -24,6 +24,7 @@ module.exports = async (sheet) => {
       submissionLink.lastIndexOf("/") + 1,
       submissionLink.length
     );
+    if (i == rowCount - 1) process.env.LAST_SUBMISSION_ID = submissionId;
     if (!(submissionId in submissionsObj)) continue;
 
     const rowData = computeRowObject(submissionsObj[submissionId]);
@@ -33,8 +34,6 @@ module.exports = async (sheet) => {
 
     await rows[i].save();
   }
-
-  if (rows.length > 0) process.env.LAST_SUBMISSION_ID = rows[0].id;
 
   console.log("Rows updated!");
 };
