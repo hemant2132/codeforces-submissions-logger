@@ -6,11 +6,11 @@
 
 ## Purpose
 
-The aim of this project is to analyse and track a user's progress on [Codeforces](https://codeforces.com/), in specific and [Competitve Programming](https://en.wikipedia.org/wiki/Competitive_programming), in general through his/her submissions. This is achieved by listening for the latest submission of the user and inserting the submission data to a [Google Sheet](https://www.google.com/sheets/about/) as a row. The data is updated at regular intervals of time.
+The aim of this project is to **_analyse and track a user's progress_** on [Codeforces](https://codeforces.com/), in specific and [Competitve Programming](https://en.wikipedia.org/wiki/Competitive_programming), in general through his/her submissions. This is achieved by listening for the latest submission of the given user and inserting the submission data to a specified [Google Sheet](https://www.google.com/sheets/about/) as a row. The data is updated at regular intervals of time.
 
-On a personal front, I just made this to sort of automate things for me as I plan to reflect on the problems I solve during practice and on my performances in contests on Codeforces. I chose Google Sheets as the platform as I can easily access and edit the content there and it also provides options for filtering, sorting and visualising the data.
+On a personal front, I have made this to sort of **_automate things_** for me as I wish to reflect on the problems I solve during practice and on my performances in contests on Codeforces. I chose Google Sheets as the platform as I can easily **_access and edit the content_** there and it also provides options for **_filtering, sorting and visualising the data_**.
 
-In the future, if things go well I plan to make something similar for team submissions. I might extend this idea to other Online Judges as well. Of course, contributions and feedback from the community are always welcome.
+In the future, if things go well I plan to handle team submissions separately, provide facility for fetching unofficial submissions and extend this idea to other Online Judges as well. Of course, contributions and feedback from the community are always welcome.
 
 ## Setup
 
@@ -36,19 +36,18 @@ $ cd codeforces-submissions-logger
 
 Create a spreadsheet on Google Sheets by following the steps given [here](https://support.google.com/docs/answer/6000292).
 
-Enter these fields in the header row: <br>
+**Enter these fields in the header row**: <br>
 Timestamp, Problem Link, Contest ID, Index, Name, Rating, Tags, Submission Link, Programming Language, Submission Verdict, Passed Test Count, Time Consumption, Memory Consumption, Points, Participation Type. <br>
 
-You can skip some of them or can hide them on the worksheet. Also, you can enter them in any order. <br>
-It is recommended to keep all of them in your sheet, especially "Submission Link".
+It is recommended to keep all of these header values in your sheet, especially "Submission Link". Although you may skip or hide some of them in your worksheet. Also, you can arrange them in any order.
 
 ### Authentication for google-spreadsheet node package
 
-The project uses [google-spreadsheet](https://www.npmjs.com/package/google-spreadsheet), which is a [Google Sheets API](https://developers.google.com/sheets/api/reference/rest) (v4) wrapper for Node.js, for writing data to Google Sheets. It requires some level of authentication of make requests any requests.
+The project uses [google-spreadsheet](https://www.npmjs.com/package/google-spreadsheet), which is a [Google Sheets API](https://developers.google.com/sheets/api/reference/rest) (v4) wrapper for Node.js, for writing data to Google Sheets. It requires some level of authentication to make requests.
 
 This project works with the service account-based-approach. Follow the steps given [here](https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication?id=service-account).
 
-You can make a new folder `config` in the root folder and save the JSON key file there. The `config` folder would not be tracked by git as it has been already mentioned in [.gitignore](.gitignore).
+You can make a new folder `config` in the root folder and save the JSON key file there. The `config` folder would not be tracked by git as it has been already mentioned in the [.gitignore](.gitignore) file.
 
 ### .env file
 
@@ -86,7 +85,11 @@ npm start
 ### Additional Comments
 
 - I have used [replit](https://replit.com/) to keep the project [always on](https://blog.replit.com/alwayson). You may use a similar hosting service.
-- You can authorize the Codeforces API to fetch unofficial submissions from Codeforces. Follow the instructions given [here](https://codeforces.com/apiHelp) and make changes to the existing code accordingly.
+- You can authorize the Codeforces API to fetch unofficial submissions. Follow the instructions given [here](https://codeforces.com/apiHelp) and make changes to the existing code accordingly.
+
+## Usage
+
+Since a Google Sheet has been used, you have all the options you can find in any other Google Sheet. You can filter the submissions by contest ID, problem index, tags, rating, participation type etc., sort the columns, visualise the data using charts, customise your sheet, make edits wherever you want, take notes and much more.
 
 ## License
 
