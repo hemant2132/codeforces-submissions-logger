@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
-const creds = require(process.env.JSON_KEY_FILE_PATH); // load info of the service worker account from the json file
 
 const pushLatestSubmission = require("./src/spreadsheet/pushLatestSubmission");
 const getDateAndTime = require("./src/getDateAndTime");
@@ -9,7 +8,10 @@ const updateRows = require("./src/spreadsheet/updateRows");
 
 (async () => {
   const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID); // initialise the sheet - doc ID is the long id in the sheet URL
-  await doc.useServiceAccountAuth(creds); // initialize auth
+  await doc.useServiceAccountAuth({
+    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+    private_key: process.env.GOOGLE_PRIVATE_KEY,
+  }); // initialize auth
 
   await doc.loadInfo(); // load document properties and worksheets
   const sheet = doc.sheetsByIndex[0];
