@@ -47,8 +47,6 @@ The project uses [google-spreadsheet](https://www.npmjs.com/package/google-sprea
 
 This project works with the service account-based-approach. Follow the steps given [here](https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication?id=service-account).
 
-You can make a new folder `config` in the root folder and save the JSON key file there. The `config` folder would not be tracked by git as it has been already mentioned in the [.gitignore](.gitignore) file.
-
 ### .env file
 
 For the environment variables, create a .env file in the root folder.
@@ -59,17 +57,8 @@ The environment variables required are:
 - `TIME_INTERVAL`: the time interval after which a request has to made to fetch the latest submission (in milliseconds). The Codeforces API mentions that it may be requested at most 5 times in one second, so set this value accordingly.
 - `GOOGLE_SHEET_ID`: the long ID in the url of the Google sheet you wish to use
 - `TIME_ZONE`: the time zone you want to follow for the dates. See the whole list [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
-- `JSON_KEY_FILE_PATH`: the path of the JSON key file you got by following the steps given [here](README.md#Authentication-for-google-spreadsheet-node-package).
-
-Fill in the appropriate details in the .env file; it should look something like this:
-
-```
-CODEFORCES_HANDLE = hp1999
-TIME_INTERVAL = 60000
-GOOGLE_SHEET_ID = 1kKxZ8veEXAMPLeoX6xvPrealLyKPo-cXP0KWExO7oQQ
-TIME_ZONE = Asia/Kolkata
-JSON_KEY_FILE_PATH = ./config/my-app-d1234da8abc1.json
-```
+- `GOOGLE_SERVICE_ACCOUNT_EMAIL`: The email id of the service account.
+- `GOOGLE_PRIVATE_KEY`: The private key of the service account.
 
 ### Build and Execute the project
 
@@ -81,11 +70,6 @@ npm start
 ```
 
 - A "running" message will soon show up on the console. Congratulations, the setup is now complete.
-
-### Additional Comments
-
-- I have used [replit](https://replit.com/) to keep the project [always on](https://blog.replit.com/alwayson). You may use a similar hosting service.
-- You can authorize the Codeforces API to fetch unofficial submissions. Follow the instructions given [here](https://codeforces.com/apiHelp) and make changes to the existing code accordingly.
 
 ## Usage
 
