@@ -35,5 +35,5 @@ module.exports = async (sheet) => {
     await rows[i].save();
   }
 
-  console.log("Rows updated!");
+  console.log("\nRows updated!\n");
 };

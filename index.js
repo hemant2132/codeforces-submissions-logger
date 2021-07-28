@@ -2,7 +2,7 @@ require("dotenv").config();
 
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 
-const pushLatestSubmission = require("./src/spreadsheet/pushLatestSubmission");
+const pushSubmissions = require("./src/spreadsheet/pushSubmissions");
 const getDateAndTime = require("./src/getDateAndTime");
 const updateRows = require("./src/spreadsheet/updateRows");
 
@@ -26,7 +26,7 @@ const updateRows = require("./src/spreadsheet/updateRows");
         await updateRows(sheet);
       }
 
-      await pushLatestSubmission(sheet);
+      await pushSubmissions(sheet);
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +35,7 @@ const updateRows = require("./src/spreadsheet/updateRows");
 
     setTimeout(async () => {
       await routine();
-    }, process.env.TIME_INTERVAL);
+    }, Number(process.env.TIME_INTERVAL));
   };
 
   routine();
