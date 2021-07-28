@@ -6,7 +6,7 @@
 
 ## Purpose
 
-The aim of this project is to **_analyse and track a user's progress_** on [Codeforces](https://codeforces.com/), in specific and [Competitve Programming](https://en.wikipedia.org/wiki/Competitive_programming), in general through his/her submissions. This is achieved by listening for the latest submission of the given user and inserting the submission data to a specified [Google Sheet](https://www.google.com/sheets/about/) as a row. The data is updated at regular intervals of time.
+The aim of this project is to **_analyse and track a user's progress_** on [Codeforces](https://codeforces.com/), in specific and [Competitve Programming](https://en.wikipedia.org/wiki/Competitive_programming), in general through his/her submissions. This is achieved by fetching recent submissions of the given user and inserting the submission data to a specified [Google Sheet](https://www.google.com/sheets/about/). The data is updated at regular intervals of time.
 
 On a personal front, I have made this to sort of **_automate things_** for me as I wish to reflect on the problems I solve during practice and on my performances in contests on Codeforces. I chose Google Sheets as the platform as I can easily **_access and edit the content_** there and it also provides options for **_filtering, sorting and visualising the data_**.
 
@@ -53,10 +53,12 @@ For the environment variables, create a .env file in the root folder.
 
 The environment variables required are:
 
-- `CODEFORCES_HANDLE`: the codeforces handle of the user whose submissions need to be tracked
-- `TIME_INTERVAL`: the time interval after which a request has to made to fetch the latest submission (in milliseconds). The Codeforces API mentions that it may be requested at most 5 times in one second, so set this value accordingly.
-- `GOOGLE_SHEET_ID`: the long ID in the url of the Google sheet you wish to use
-- `TIME_ZONE`: the time zone you want to follow for the dates. See the whole list [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+- `CODEFORCES_HANDLE`: The codeforces handle of the user whose submissions need to be tracked.
+- `TIME_INTERVAL`: The time interval after which a request will be made to fetch recent submissions (in milliseconds).
+- `TIME_BASE_VALUE`: The amount of time with which the time interval varies depending on whether new submissions were inserted into the sheet (in milliseconds).
+- `TIME_MAX_VALUE`: The maximum possible value for the time interval (in milliseconds).
+- `GOOGLE_SHEET_ID`: The long ID in the url of the Google sheet you wish to use
+- `TIME_ZONE`: The time zone you want to follow for the dates. See the whole list [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL`: The email id of the service account.
 - `GOOGLE_PRIVATE_KEY`: The private key of the service account.
 
