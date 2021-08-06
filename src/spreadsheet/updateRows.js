@@ -2,12 +2,22 @@ const fetchSubmissions = require("../codeforces/fetchSubmissions");
 const computeRowObject = require("./computeRowObject");
 
 module.exports = async (sheet) => {
-  // get rows
+  // get rows (except for the header)
   const rows = await sheet.getRows();
   const rowCount = rows.length;
 
+  // if no submissions are present in the sheet
+  if (rowCount === 0) return;
+
   // get submissions
-  const submissions = await fetchSubmissions(1, rowCount);
+  let submissions = null;
+  try {
+    submissions = await fetchSubmissions(1, rowCount);
+  } catch (e) {
+    console.log("Error in fetching submissions...", String(e));
+  }
+
+  if (submissions === null) return;
 
   // put submissions into an object with key as submission ID
   let submissionsObj = {};

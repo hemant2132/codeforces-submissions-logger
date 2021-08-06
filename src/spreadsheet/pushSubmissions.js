@@ -3,14 +3,25 @@ const computeRowObject = require("./computeRowObject");
 
 module.exports = async (sheet) => {
   // upper-limit for the no. of submissions
-  const upperLimit = 500;
+  const upperLimit = process.env.LAST_SUBMISSION_ID !== undefined ? 500 : 1; // LAST_SUBMISSION_ID will be undefined in the very first run
 
   // get submissions
-  const submissions = await fetchSubmissions(1, upperLimit);
+  let submissions = null;
+  try {
+    submissions = await fetchSubmissions(1, upperLimit);
+  } catch (e) {
+    console.log("Error in fetching submissions...", String(e));
+  }
+
+  if (submissions === null) return;
 
   let newSubmissionsCount = 0;
-  for (let i = upperLimit - 1; i >= 0; --i) {
-    if (submissions[i].id <= process.env.LAST_SUBMISSION_ID) continue;
+  for (let i = Math.min(upperLimit, submissions.length) - 1; i >= 0; --i) {
+    if (
+      process.env.LAST_SUBMISSION_ID !== undefined &&
+      Number(submissions[i].id) <= Number(process.env.LAST_SUBMISSION_ID)
+    )
+      continue;
 
     // data to be pushed into the new row
     const rowData = computeRowObject(submissions[i]);
